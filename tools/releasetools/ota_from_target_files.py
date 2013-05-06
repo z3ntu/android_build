@@ -2171,9 +2171,7 @@ def main(argv):
     output_zip = zipfile.ZipFile(args[1], "w",
                                  compression=zipfile.ZIP_DEFLATED)
   else:
-    temp_zip_file = tempfile.NamedTemporaryFile()
-    output_zip = zipfile.ZipFile(temp_zip_file, "w",
-                                 compression=zipfile.ZIP_DEFLATED)
+    output_zip = zipfile.ZipFile(args[1], "w",, compression=zipfile.ZIP_DEFLATED)
 
   # Non A/B OTAs rely on /cache partition to store temporary files.
   cache_size = OPTIONS.info_dict.get("cache_size", None)
@@ -2219,11 +2217,6 @@ def main(argv):
       WriteFullOTAPackage(input_zip, output_zip)
 
   common.ZipClose(output_zip)
-
-  # Sign the generated zip package unless no_signing is specified.
-  if not OPTIONS.no_signing:
-    SignOutput(temp_zip_file.name, args[1])
-    temp_zip_file.close()
 
   print "done."
 

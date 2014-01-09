@@ -294,9 +294,9 @@ endif
 include $(BUILD_SYSTEM)/config_sanitizers.mk
 
 # Add in libcompiler_rt for all regular device builds
-ifeq (,$(LOCAL_SDK_VERSION)$(WITHOUT_LIBCOMPILER_RT))
-  my_static_libraries += $(COMPILER_RT_CONFIG_EXTRA_STATIC_LIBRARIES)
-endif
+#ifeq (,$(LOCAL_SDK_VERSION)$(WITHOUT_LIBCOMPILER_RT))
+#  my_static_libraries += $(COMPILER_RT_CONFIG_EXTRA_STATIC_LIBRARIES)
+#endif
 
 ####################################################
 ## Add FDO flags if FDO is turned on and supported

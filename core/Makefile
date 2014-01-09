@@ -1223,8 +1223,7 @@ RECOVERY_FROM_BOOT_PATCH :=
 endif
 $(RECOVERY_FROM_BOOT_PATCH): $(INSTALLED_RECOVERYIMAGE_TARGET) \
                              $(INSTALLED_BOOTIMAGE_TARGET) \
-			     $(HOST_OUT_EXECUTABLES)/imgdiff \
-	                     $(HOST_OUT_EXECUTABLES)/bsdiff
+			     $(HOST_OUT_EXECUTABLES)/imgdiff
 	@echo "Construct recovery from boot"
 	mkdir -p $(dir $@)
 ifeq ($(TARGET_NOT_USE_GZIP_RECOVERY_RAMDISK),true)
@@ -1778,7 +1777,6 @@ OTATOOLS :=  $(HOST_OUT_EXECUTABLES)/minigzip \
   $(HOST_OUT_EXECUTABLES)/fs_config \
   $(HOST_OUT_EXECUTABLES)/mkyaffs2image \
   $(HOST_OUT_EXECUTABLES)/zipalign \
-  $(HOST_OUT_EXECUTABLES)/bsdiff \
   $(HOST_OUT_EXECUTABLES)/imgdiff \
   $(HOST_OUT_JAVA_LIBRARIES)/dumpkey.jar \
   $(HOST_OUT_JAVA_LIBRARIES)/BootSignature.jar \

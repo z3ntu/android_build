@@ -622,21 +622,21 @@ ANDROID_MANIFEST_MERGER := java -classpath prebuilts/devtools/tools/lib/manifest
 COLUMN:= column
 
 # We may not have the right JAVA_HOME/PATH set up yet when this is run from envsetup.sh.
-ifneq ($(CALLED_FROM_SETUP),true)
-HOST_JDK_TOOLS_JAR:= $(shell $(BUILD_SYSTEM)/find-jdk-tools-jar.sh)
+#ifneq ($(CALLED_FROM_SETUP),true)
+#HOST_JDK_TOOLS_JAR:= $(shell $(BUILD_SYSTEM)/find-jdk-tools-jar.sh)
 
-ifneq ($(HOST_JDK_TOOLS_JAR),)
-ifeq ($(wildcard $(HOST_JDK_TOOLS_JAR)),)
-$(error Error: could not find jdk tools.jar at $(HOST_JDK_TOOLS_JAR), please check if your JDK was installed correctly)
-endif
-endif
+#ifneq ($(HOST_JDK_TOOLS_JAR),)
+#ifeq ($(wildcard $(HOST_JDK_TOOLS_JAR)),)
+#$(error Error: could not find jdk tools.jar at $(HOST_JDK_TOOLS_JAR), please check if your JDK was installed correctly)
+#endif
+#endif
 
 # Is the host JDK 64-bit version?
-HOST_JDK_IS_64BIT_VERSION :=
-ifneq ($(filter 64-Bit, $(shell java -version 2>&1)),)
-HOST_JDK_IS_64BIT_VERSION := true
-endif
-endif  # CALLED_FROM_SETUP not true
+#HOST_JDK_IS_64BIT_VERSION :=
+#ifneq ($(filter 64-Bit, $(shell java -version 2>&1)),)
+#HOST_JDK_IS_64BIT_VERSION := true
+#endif
+#endif  # CALLED_FROM_SETUP not true
 
 # It's called md5 on Mac OS and md5sum on Linux
 ifeq ($(HOST_OS),darwin)
@@ -645,7 +645,7 @@ else
 MD5SUM:=md5sum
 endif
 
-APICHECK_CLASSPATH := $(HOST_JDK_TOOLS_JAR)
+#APICHECK_CLASSPATH := $(HOST_JDK_TOOLS_JAR)
 APICHECK_CLASSPATH := $(APICHECK_CLASSPATH):$(HOST_OUT_JAVA_LIBRARIES)/doclava$(COMMON_JAVA_PACKAGE_SUFFIX)
 APICHECK_CLASSPATH := $(APICHECK_CLASSPATH):$(HOST_OUT_JAVA_LIBRARIES)/jsilver$(COMMON_JAVA_PACKAGE_SUFFIX)
 APICHECK_COMMAND := $(APICHECK) -JXmx1024m -J"classpath $(APICHECK_CLASSPATH)"

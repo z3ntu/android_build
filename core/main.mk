@@ -182,62 +182,62 @@ $(error Directory names containing spaces not supported)
 endif
 
 ifeq ($(JAVA_NOT_REQUIRED), false)
-java_version_str := $(shell unset _JAVA_OPTIONS && java -version 2>&1)
-javac_version_str := $(shell unset _JAVA_OPTIONS && javac -version 2>&1)
+#java_version_str := $(shell unset _JAVA_OPTIONS && java -version 2>&1)
+#javac_version_str := $(shell unset _JAVA_OPTIONS && javac -version 2>&1)
 
 # Check for the correct version of java, should be 1.8 by
 # default and only 1.7 if LEGACY_USE_JAVA7 is set.
-ifeq ($(LEGACY_USE_JAVA7),) # if LEGACY_USE_JAVA7 == ''
-required_version := "1.8.x"
-required_javac_version := "1.8"
-java_version := $(shell echo '$(java_version_str)' | grep '[ "]1\.8[\. "$$]')
-javac_version := $(shell echo '$(javac_version_str)' | grep '[ "]1\.8[\. "$$]')
-else
-required_version := "1.7.x"
-required_javac_version := "1.7"
-java_version := $(shell echo '$(java_version_str)' | grep '^java .*[ "]1\.7[\. "$$]')
-javac_version := $(shell echo '$(javac_version_str)' | grep '[ "]1\.7[\. "$$]')
-endif # if LEGACY_USE_JAVA7 == ''
+#ifeq ($(LEGACY_USE_JAVA7),) # if LEGACY_USE_JAVA7 == ''
+#required_version := "1.8.x"
+#required_javac_version := "1.8"
+#java_version := $(shell echo '$(java_version_str)' | grep '[ "]1\.8[\. "$$]')
+#javac_version := $(shell echo '$(javac_version_str)' | grep '[ "]1\.8[\. "$$]')
+#else
+#required_version := "1.7.x"
+#required_javac_version := "1.7"
+#java_version := $(shell echo '$(java_version_str)' | grep '^java .*[ "]1\.7[\. "$$]')
+#javac_version := $(shell echo '$(javac_version_str)' | grep '[ "]1\.7[\. "$$]')
+#endif # if LEGACY_USE_JAVA7 == ''
 
-ifeq ($(strip $(java_version)),)
-$(info ************************************************************)
-$(info You are attempting to build with the incorrect version)
-$(info of java.)
-$(info $(space))
-$(info Your version is: $(java_version_str).)
-$(info The required version is: $(required_version))
-$(info $(space))
-$(info Please follow the machine setup instructions at)
-$(info $(space)$(space)$(space)$(space)https://source.android.com/source/initializing.html)
-$(info ************************************************************)
-$(error stop)
-endif
+#ifeq ($(strip $(java_version)),)
+#$(info ************************************************************)
+#$(info You are attempting to build with the incorrect version)
+#$(info of java.)
+#$(info $(space))
+#$(info Your version is: $(java_version_str).)
+#$(info The required version is: $(required_version))
+#$(info $(space))
+#$(info Please follow the machine setup instructions at)
+#$(info $(space)$(space)$(space)$(space)https://source.android.com/source/initializing.html)
+#$(info ************************************************************)
+#$(error stop)
+#endif
 
-KNOWN_INCOMPATIBLE_JAVAC_VERSIONS := google
-incompat_javac := $(foreach v,$(KNOWN_INCOMPATIBLE_JAVAC_VERSIONS),$(findstring $(v),$(javac_version_str)))
-ifneq ($(incompat_javac),)
-javac_version :=
-endif
+#KNOWN_INCOMPATIBLE_JAVAC_VERSIONS := google
+#incompat_javac := $(foreach v,$(KNOWN_INCOMPATIBLE_JAVAC_VERSIONS),$(findstring $(v),$(javac_version_str)))
+#ifneq ($(incompat_javac),)
+#javac_version :=
+#endif
 
 # Check for the correct version of javac
-ifeq ($(strip $(javac_version)),)
-$(info ************************************************************)
-$(info You are attempting to build with the incorrect version)
-$(info of javac.)
-$(info $(space))
-$(info Your version is: $(javac_version_str).)
-ifneq ($(incompat_javac),)
-$(info This '$(incompat_javac)' version is not supported for Android platform builds.)
-$(info Use a publicly available JDK and make sure you have run envsetup.sh / lunch.)
-else
-$(info The required version is: $(required_javac_version))
-endif
-$(info $(space))
-$(info Please follow the machine setup instructions at)
-$(info $(space)$(space)$(space)$(space)https://source.android.com/source/download.html)
-$(info ************************************************************)
-$(error stop)
-endif
+#ifeq ($(strip $(javac_version)),)
+#$(info ************************************************************)
+#$(info You are attempting to build with the incorrect version)
+#$(info of javac.)
+#$(info $(space))
+#$(info Your version is: $(javac_version_str).)
+#ifneq ($(incompat_javac),)
+#$(info This '$(incompat_javac)' version is not supported for Android platform builds.)
+#$(info Use a publicly available JDK and make sure you have run envsetup.sh / lunch.)
+#else
+#$(info The required version is: $(required_javac_version))
+#endif
+#$(info $(space))
+#$(info Please follow the machine setup instructions at)
+#$(info $(space)$(space)$(space)$(space)https://source.android.com/source/download.html)
+#$(info ************************************************************)
+#$(error stop)
+#endif
 
 endif # if JAVA_NOT_REQUIRED
 

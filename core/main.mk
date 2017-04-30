@@ -636,7 +636,7 @@ subdirs += \
 
 # Specific projects for Ubuntu Touch
 subdirs += \
-	ubuntu
+	halium
 
 FULL_BUILD := true
 

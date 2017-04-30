@@ -498,13 +498,11 @@ $(BOOT_ANDROID_RAMDISK_IMG): $(INSTALLED_RAMDISK_TARGET_ANDROID)
 	$(hide) mkdir -p $(dir $@)
 	$(hide) $(ACP) $(INSTALLED_RAMDISK_TARGET_ANDROID) $@
 
-# Download the Ubuntu Touch ramdisk from the archive
-TARGET_UBUNTU_INITRD_PKG := ubuntu-touch-generic-initrd
-TARGET_UBUNTU_INITRD_SERIES := vivid
-TARGET_OUT_UBUNTU_INITRD_PKG := $(TARGET_OUT_UBUNTU)/$(TARGET_UBUNTU_INITRD_PKG)
-TARGET_UBUNTU_INITRD_LP_IMG := $(TARGET_OUT_UBUNTU_INITRD_PKG)/usr/lib/ubuntu-touch-generic-initrd/initrd.img-touch
-TARGET_UBUNTU_INITRD_REPO := $(PWD)/ubuntu/ubuntu_prebuilt_initrd/initrd.img-touch
+# Halium initrd
+TARGET_UBUNTU_INITRD_REPO := $(PWD)/halium/prebuilt-initrd/initrd.img-touch
 INSTALLED_RAMDISK_TARGET := $(BUILT_RAMDISK_TARGET)
+
+# TODO add arm64
 ifeq ($(TARGET_ARCH),x86)
 TARGET_UBUNTU_ARCH := i386
 else
@@ -513,20 +511,11 @@ endif
 
 .PHONY: $(INSTALLED_RAMDISK_TARGET)
 $(INSTALLED_RAMDISK_TARGET): $(MKBOOTFS) $(INTERNAL_UBUNTURAMDISK_FILES) | $(MINIGZIP)
-	$(call pretty,"Target Ubuntu Touch ram disk: $@")
+	$(call pretty,"Target Halium ram disk: $@")
 	$(hide) rm -rf $(TARGET_OUT_UBUNTU_INITRD)
-	$(hide) mkdir -p $(TARGET_OUT_UBUNTU_INITRD) $(TARGET_OUT_UBUNTU_INITRD_PKG)
-ifdef BOARD_USE_LOCAL_INITRD
+	$(hide) mkdir -p $(TARGET_OUT_UBUNTU_INITRD)
 	$(call pretty,"Using local initrd repo:$(TARGET_UBUNTU_INITRD_REPO)")
 	$(hide) $(ACP) $(TARGET_UBUNTU_INITRD_REPO) $@
-else
-	$(call pretty,"Downloading upstream initrd: $(TARGET_UBUNTU_INITRD_PKG) -o $(TARGET_OUT_UBUNTU_INITRD_PKG) -a $(TARGET_UBUNTU_ARCH) $(TARGET_UBUNTU_INITRD_SERIES)")
-	$(hide) rm -rf $(TARGET_OUT_UBUNTU_INITRD_PKG)
-	$(hide) mkdir -p $(TARGET_OUT_UBUNTU_INITRD_PKG)
-	$(hide) $(PULL_LP_BIN) $(TARGET_UBUNTU_INITRD_PKG) -o $(TARGET_OUT_UBUNTU_INITRD_PKG) -a $(TARGET_UBUNTU_ARCH) $(TARGET_UBUNTU_INITRD_SERIES)
-	$(hide) dpkg-deb -x $(TARGET_OUT_UBUNTU_INITRD_PKG)/$(TARGET_UBUNTU_INITRD_PKG)*.deb $(TARGET_OUT_UBUNTU_INITRD_PKG)
-	$(hide) $(ACP) $(TARGET_UBUNTU_INITRD_LP_IMG) $@
-endif
 	$(hide) cd $(TARGET_OUT_UBUNTU_INITRD) && $(MINIGZIP) -c -d $@ | cpio -id
 ifdef BOARD_OVERLAY_INITRD
 	$(hide) if [ -d $(TARGET_OUT_UBUNTU_RAMDISK) ]; then cp -r $(TARGET_OUT_UBUNTU_RAMDISK)/* $(TARGET_OUT_UBUNTU_INITRD); fi
@@ -597,7 +586,7 @@ $(INSTALLED_BOOTIMAGE_TARGET_ANDROID): $(MKEXT2IMG) $(INTERNAL_BOOTIMAGE_FILES_A
 	$(hide) $(MKEXT2BOOTIMG) $(INTERNAL_BOOTIMAGE_ARGS_ANDROID) --output $@
 
 $(INSTALLED_BOOTIMAGE_TARGET): $(MKEXT2IMG) $(INTERNAL_BOOTIMAGE_FILES)
-	$(call pretty,"Target boot image for Ubuntu Touch: $@")
+	$(call pretty,"Target boot image for Halium: $@")
 	$(hide) $(MKEXT2BOOTIMG) $(INTERNAL_BOOTIMAGE_ARGS) --output $@
 	@echo -e ${CL_CYN}"Made boot image: $@"${CL_RST}
 
@@ -617,7 +606,7 @@ $(INSTALLED_BOOTIMAGE_TARGET_ANDROID): $(MKEXT2IMG) $(INTERNAL_BOOTIMAGE_FILES_A
 	$(hide) $(MKEXT2BOOTIMG) $(INTERNAL_BOOTIMAGE_ARGS_ANDROID) --output $@
 
 $(INSTALLED_BOOTIMAGE_TARGET): $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_FILES) $(BOOT_SIGNER) $(BOOTIMAGE_EXTRA_DEPS)
-	$(call pretty,"Target boot image for Ubuntu Touch: $@")
+	$(call pretty,"Target boot image for Halium: $@")
 	$(hide) $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_ARGS) $(BOARD_MKBOOTIMG_ARGS) --output $@
 	$(BOOT_SIGNER) /boot $@ $(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_VERITY_SIGNING_KEY) $@
 	$(hide) $(call assert-max-image-size,$@,$(BOARD_BOOTIMAGE_PARTITION_SIZE))
@@ -625,7 +614,7 @@ $(INSTALLED_BOOTIMAGE_TARGET): $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_FILES) $(BOOT_S
 .PHONY: bootimage-nodeps
 bootimage-nodeps: $(MKBOOTIMG) $(BOOT_SIGNER)
 	@echo "make $@: ignoring dependencies"
-	$(call pretty,"Repacking ubuntu ramdisk to: $(INSTALLED_RAMDISK_TARGET)")
+	$(call pretty,"Repacking Halium ramdisk to: $(INSTALLED_RAMDISK_TARGET)")
 	$(hide) cd $(TARGET_OUT_UBUNTU_INITRD) && find . | cpio -o -H newc | $(MINIGZIP) >$(INSTALLED_RAMDISK_TARGET)
 	$(hide) $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_ARGS) $(BOARD_MKBOOTIMG_ARGS) --output $(INSTALLED_BOOTIMAGE_TARGET)
 	$(BOOT_SIGNER) /boot $(INSTALLED_BOOTIMAGE_TARGET) $(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_VERITY_SIGNING_KEY).pk8 $(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_VERITY_SIGNING_KEY).x509.pem $(INSTALLED_BOOTIMAGE_TARGET)
@@ -641,7 +630,7 @@ $(INSTALLED_BOOTIMAGE_TARGET_ANDROID): $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_FILES_A
 	$(hide) $(call assert-max-image-size,$@,$(BOARD_BOOTIMAGE_PARTITION_SIZE),raw)
 
 $(INSTALLED_BOOTIMAGE_TARGET): $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_FILES) $(BOOTIMAGE_EXTRA_DEPS)
-	$(call pretty,"Target boot image for Ubuntu Touch: $@")
+	$(call pretty,"Target boot image for Halium: $@")
 	$(hide) $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_ARGS) $(BOARD_MKBOOTIMG_ARGS) --output $@
 	$(hide) $(call assert-max-image-size,$@,$(BOARD_BOOTIMAGE_PARTITION_SIZE))
 	@echo -e ${CL_CYN}"Made boot image: $@"${CL_RST}
@@ -649,7 +638,7 @@ $(INSTALLED_BOOTIMAGE_TARGET): $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_FILES) $(BOOTIM
 .PHONY: bootimage-nodeps
 bootimage-nodeps: $(MKBOOTIMG)
 	@echo "make $@: ignoring dependencies"
-	$(call pretty,"Repacking ubuntu ramdisk to: $(INSTALLED_RAMDISK_TARGET)")
+	$(call pretty,"Repacking Halium ramdisk to: $(INSTALLED_RAMDISK_TARGET)")
 	$(hide) cd $(TARGET_OUT_UBUNTU_INITRD) && find . | cpio -o -H newc | $(MINIGZIP) > $(INSTALLED_RAMDISK_TARGET)
 	$(hide) $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_ARGS) $(BOARD_MKBOOTIMG_ARGS) --output $(INSTALLED_BOOTIMAGE_TARGET)
 	$(hide) $(call assert-max-image-size,$(INSTALLED_BOOTIMAGE_TARGET),$(BOARD_BOOTIMAGE_PARTITION_SIZE))

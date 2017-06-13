@@ -636,9 +636,10 @@ subdirs += \
 	vendor/sony \
 	vendor/widevine
 
-# Specific projects for Ubuntu Touch
+# Specific projects for halium
 subdirs += \
-	halium
+	halium \
+	hybris-boot
 
 FULL_BUILD := true
 

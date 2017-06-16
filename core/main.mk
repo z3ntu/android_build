@@ -616,6 +616,7 @@ subdirs += \
 	device/asus \
 	device/fairphone \
 	device/generic \
+	device/htc \
 	device/lge \
 	device/samsung \
 	device/sony \
@@ -627,6 +628,7 @@ subdirs += \
 	vendor/broadcom \
 	vendor/cm \
 	vendor/elan \
+	vendor/htc \
 	vendor/invensense \
 	vendor/lge \
 	vendor/nvidia \

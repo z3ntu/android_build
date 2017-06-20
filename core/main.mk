@@ -484,37 +484,64 @@ subdirs := \
 	build/tools/zipalign \
 	development/tools/emulator/opengl \
 	external/aac \
+	external/boringssl \
 	external/busybox \
 	external/bzip2 \
 	external/checkpolicy \
 	external/compiler-rt \
+	external/clang \
 	external/e2fsprogs \
 	external/expat \
+	external/exfat \
+	external/libtar \
 	external/flac \
 	external/freetype \
+	external/fuse \
 	external/fsck_msdos \
 	external/gcc-demangle \
 	external/genext2fs \
 	external/giflib \
 	external/gtest \
+	external/gptfdisk \
+	external/ntfs-3g \
+	external/piex \
+	external/f2fs-tools \
 	external/icu/icu4c \
+	external/icu/android_utils \
+	external/nanopb-c \
+	external/libpcap \
+	external/libcap \
 	external/jemalloc \
 	external/jhead \
-	external/jpeg \
+	external/libjpeg-turbo \
 	external/jsmn \
 	external/jsoncpp \
+	external/dng_sdk \
 	external/libcxx \
 	external/libcxxabi \
+	external/libnfnetlink \
+	external/libnetfilter_conntrack \
 	external/liblzf \
 	external/libnl \
+	external/libavc \
+	external/lzma \
+	external/toybox \
 	external/libgsm \
 	external/libpng \
+	external/libdrm \
+	external/fec \
 	external/libvpx \
 	external/libogg \
 	external/libopus \
 	external/libselinux \
+	external/selinux \
+	external/minijail \
 	external/libsepol \
 	external/libunwind \
+	external/libunwind_llvm \
+	external/llvm \
+	external/libxml2 \
+	external/libyuv \
 	external/mdnsresponder \
 	external/mksh \
 	external/openssl \
@@ -526,6 +553,7 @@ subdirs := \
 	external/sepolicy \
 	external/sfntly \
 	external/skia \
+	external/sonic \
 	external/sonivox \
 	external/speex \
 	external/sqlite \
@@ -539,11 +567,14 @@ subdirs := \
 	external/wpa_supplicant_8 \
 	external/yaffs2 \
 	external/zlib \
+	external/squashfs-tools \
 	external/zopfli \
+	external/vulkan-validation-layers \
 	frameworks/av/camera \
 	frameworks/av/drm \
 	frameworks/av/media/common_time \
 	frameworks/av/media/libcpustats \
+	frameworks/av/media/libavextensions \
 	frameworks/av/media/libaah_rtp \
 	frameworks/av/media/libeffects \
 	frameworks/av/media/libmedia \
@@ -552,15 +583,16 @@ subdirs := \
 	frameworks/av/media/libnbaio \
 	frameworks/av/media/libstagefright \
 	frameworks/av/media/mediaserver \
+	frameworks/av/media/utils \
 	frameworks/av/services/audioflinger \
 	frameworks/av/services/medialog \
+	frameworks/av/services/mediaresourcemanager \
 	frameworks/av/services/camera/libcameraservice \
 	frameworks/base/cmds/bootanimation \
 	frameworks/base/cmds/screencap \
 	frameworks/base/libs/androidfw \
 	frameworks/base/libs/diskusage \
 	frameworks/base/libs/input \
-	frameworks/native/services/inputflinger \
 	frameworks/base/tools/aapt \
 	frameworks/native/cmds/installd \
 	frameworks/native/cmds/sensorservice \
@@ -568,23 +600,35 @@ subdirs := \
 	frameworks/native/cmds/surfaceflinger \
 	frameworks/native/libs \
 	frameworks/native/opengl \
+	frameworks/native/vulkan \
 	frameworks/native/services \
 	frameworks/opt/emoji \
+	frameworks/rs/cpp \
+	frameworks/compile/slang \
 	hardware \
 	prebuilts/tools/linux-x86/sdl \
+	prebuilts/sdk/tools \
 	sdk/emulator \
 	system/core \
 	system/vold \
 	system/bluetooth \
 	system/extras/ext4_utils \
+	system/extras/libfec \
 	system/extras/f2fs_utils \
+	system/extras/squashfs_utils \
 	system/media/audio_utils \
 	system/media/camera \
 	system/media/audio_route \
+	system/media/alsa_utils \
 	system/netd \
 	system/su \
 	system/security/keystore \
-	system/security/softkeymaster
+	system/security/softkeymaster \
+	system/security/keystore-engine \
+	system/keymaster \
+	system/gatekeeper \
+	system/sepolicy \
+	system/tools/aidl
 
 # device and vendor
 subdirs += \

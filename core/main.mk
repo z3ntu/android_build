@@ -635,9 +635,9 @@ subdirs += \
 	device \
 	vendor
 
-# Specific projects for Ubuntu Touch
-subdirs += \
-	ubuntu
+# Specific projects for Halium
+#subdirs += \
+#	halium
 
 FULL_BUILD := true
 

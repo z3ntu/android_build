@@ -588,22 +588,8 @@ subdirs := \
 
 # device and vendor
 subdirs += \
-	device/asus \
-	device/generic \
-	device/lge \
-	device/samsung \
-	vendor/asus \
-	vendor/audience \
-	vendor/broadcom \
-	vendor/cm \
-	vendor/elan \
-	vendor/invensense \
-	vendor/lge \
-	vendor/nvidia \
-	vendor/nxp \
-	vendor/qcom \
-	vendor/samsung \
-	vendor/widevine
+	device \
+	vendor
 
 # Specific projects for Ubuntu Touch
 subdirs += \

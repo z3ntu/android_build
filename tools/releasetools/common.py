@@ -431,8 +431,8 @@ def _BuildBootableImage(sourcedir, fs_config_file, info_dict=None,
 
     p2.wait()
     p1.wait()
-    assert p1.returncode == 0, "mkbootfs of %s ramdisk failed" % (targetname,)
-    assert p2.returncode == 0, "minigzip of %s ramdisk failed" % (targetname,)
+    assert p1.returncode == 0, "mkbootfs of %s ramdisk failed" % (sourcedir,)
+    assert p2.returncode == 0, "minigzip of %s ramdisk failed" % (sourcedir,)
     ramdisk_img.close()
 
     return ramdisk_img

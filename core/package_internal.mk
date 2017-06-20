@@ -296,10 +296,6 @@ endif  # LOCAL_DATA_BINDING
 
 include $(BUILD_SYSTEM)/android_manifest.mk
 
-#################################
-include $(BUILD_SYSTEM)/java.mk
-#################################
-
 LOCAL_SDK_RES_VERSION:=$(strip $(LOCAL_SDK_RES_VERSION))
 ifeq ($(LOCAL_SDK_RES_VERSION),)
   LOCAL_SDK_RES_VERSION:=$(LOCAL_SDK_VERSION)

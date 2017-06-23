@@ -482,6 +482,7 @@ subdirs := \
 	build/tools/check_prereq \
 	build/tools/fs_config \
 	build/tools/zipalign \
+	build/tools/ziptime \
 	development/tools/emulator/opengl \
 	external/aac \
 	external/boringssl \

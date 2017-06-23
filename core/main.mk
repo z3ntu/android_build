@@ -636,8 +636,8 @@ subdirs += \
 	vendor
 
 # Specific projects for Halium
-#subdirs += \
-#	halium
+subdirs += \
+	halium/hybris-boot
 
 FULL_BUILD := true
 

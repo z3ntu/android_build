@@ -510,7 +510,6 @@ INTERNAL_RAMDISK_FILES := $(filter $(TARGET_ROOT_OUT)/%, \
 	$(ALL_DEFAULT_INSTALLED_MODULES))
 
 # Default ramdisk comes now from Ubuntu
-BUILT_RAMDISK_TARGET := $(PRODUCT_OUT)/ramdisk.img
 BUILT_RAMDISK_TARGET_ANDROID := $(PRODUCT_OUT)/android-ramdisk.img
 
 # We just build this directly to the install location.
@@ -525,27 +524,30 @@ $(BOOT_ANDROID_RAMDISK_IMG): $(INSTALLED_RAMDISK_TARGET_ANDROID)
 	$(hide) mkdir -p $(dir $@)
 	$(hide) $(ACP) $(INSTALLED_RAMDISK_TARGET_ANDROID) $@
 
-# Download the Ubuntu Touch ramdisk from the archive
-TARGET_UBUNTU_INITRD_PKG := ubuntu-touch-generic-initrd
-TARGET_UBUNTU_INITRD_SERIES := trusty
-TARGET_OUT_UBUNTU_INITRD := $(TARGET_OUT_UBUNTU)/$(TARGET_UBUNTU_INITRD_PKG)
-TARGET_UBUNTU_INITRD := $(TARGET_OUT_UBUNTU_INITRD)/usr/lib/ubuntu-touch-generic-initrd/initrd.img-touch
+## Download the Ubuntu Touch ramdisk from the archive
+#TARGET_UBUNTU_INITRD_PKG := ubuntu-touch-generic-initrd
+#TARGET_UBUNTU_INITRD_SERIES := trusty
+#TARGET_OUT_UBUNTU_INITRD := $(TARGET_OUT_UBUNTU)/$(TARGET_UBUNTU_INITRD_PKG)
+#TARGET_UBUNTU_INITRD := $(TARGET_OUT_UBUNTU_INITRD)/usr/lib/ubuntu-touch-generic-initrd/initrd.img-touch
+#INSTALLED_RAMDISK_TARGET := $(BUILT_RAMDISK_TARGET)
+
+#.PHONY: $(INSTALLED_RAMDISK_TARGET)
+#$(INSTALLED_RAMDISK_TARGET): $(MKBOOTFS) | $(MINIGZIP)
+#	$(call pretty,"Target Ubuntu Touch ram disk: $@")
+#	$(hide) rm -rf $(TARGET_OUT_UBUNTU_INITRD) $(TARGET_UBUNTU_ROOT_OUT)
+#	$(hide) mkdir -p $(TARGET_OUT_UBUNTU_INITRD) $(TARGET_UBUNTU_ROOT_OUT)
+#	$(hide) $(PULL_LP_BIN) $(TARGET_UBUNTU_INITRD_PKG) -o $(TARGET_OUT_UBUNTU_INITRD) $(TARGET_UBUNTU_INITRD_SERIES)
+#	$(hide) dpkg-deb -x $(TARGET_OUT_UBUNTU_INITRD)/$(TARGET_UBUNTU_INITRD_PKG)*.deb $(TARGET_OUT_UBUNTU_INITRD)
+#	$(hide) $(ACP) $(TARGET_UBUNTU_INITRD) $@
+#	$(hide) cd $(TARGET_UBUNTU_ROOT_OUT) && $(MINIGZIP) -c -d $@ | cpio -id
+
+#.PHONY: ramdisk-nodeps
+#ramdisk-nodeps: $(MKBOOTFS) | $(MINIGZIP)
+#	@echo "make $@: ignoring dependencies"
+#	$(hide) $(MKBOOTFS) -d $(TARGET_OUT) $(TARGET_ROOT_OUT) | $(BOOT_RAMDISK_COMPRESSOR) > $(INSTALLED_RAMDISK_TARGET)
+
+BUILT_RAMDISK_TARGET := $(BUILT_RAMDISK_TARGET_ANDROID)
 INSTALLED_RAMDISK_TARGET := $(BUILT_RAMDISK_TARGET)
-
-.PHONY: $(INSTALLED_RAMDISK_TARGET)
-$(INSTALLED_RAMDISK_TARGET): $(MKBOOTFS) | $(MINIGZIP)
-	$(call pretty,"Target Ubuntu Touch ram disk: $@")
-	$(hide) rm -rf $(TARGET_OUT_UBUNTU_INITRD) $(TARGET_UBUNTU_ROOT_OUT)
-	$(hide) mkdir -p $(TARGET_OUT_UBUNTU_INITRD) $(TARGET_UBUNTU_ROOT_OUT)
-	$(hide) $(PULL_LP_BIN) $(TARGET_UBUNTU_INITRD_PKG) -o $(TARGET_OUT_UBUNTU_INITRD) $(TARGET_UBUNTU_INITRD_SERIES)
-	$(hide) dpkg-deb -x $(TARGET_OUT_UBUNTU_INITRD)/$(TARGET_UBUNTU_INITRD_PKG)*.deb $(TARGET_OUT_UBUNTU_INITRD)
-	$(hide) $(ACP) $(TARGET_UBUNTU_INITRD) $@
-	$(hide) cd $(TARGET_UBUNTU_ROOT_OUT) && $(MINIGZIP) -c -d $@ | cpio -id
-
-.PHONY: ramdisk-nodeps
-ramdisk-nodeps: $(MKBOOTFS) | $(MINIGZIP)
-	@echo "make $@: ignoring dependencies"
-	$(hide) $(MKBOOTFS) -d $(TARGET_OUT) $(TARGET_ROOT_OUT) | $(BOOT_RAMDISK_COMPRESSOR) > $(INSTALLED_RAMDISK_TARGET)
 
 ifneq ($(strip $(TARGET_NO_KERNEL)),true)
 

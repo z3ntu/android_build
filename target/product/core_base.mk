@@ -65,7 +65,8 @@ PRODUCT_PACKAGES += \
     libbatteryservice \
     libbinder \
     libminui \
-    healthd
+    healthd \
+    logd
 
 # for Ubuntu Touch (hybris, platform-api, utils, etc)
 PRODUCT_PACKAGES += \
